@@ -2,46 +2,48 @@
 
 namespace App\Entity;
 
+use App\Model\TimestampedInterface;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-class Article
+class Article implements TimestampedInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'integer')]
+    private $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $title;
 
-    #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $slug;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $content = null;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $content;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $featuredText = null;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $featuredText;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\ManyToOne(targetEntity: Media::class)]
+    private $featuredImage;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
+    private $categories;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'articles')]
-    private Collection $categories;
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private $comments;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]
-    private Collection $comments;
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
 
-    #[ORM\ManyToOne]
-    private ?Media $featuredImage = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $updatedAt;
 
     public function __construct()
     {
@@ -66,18 +68,6 @@ class Article
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
     public function getContent(): ?string
     {
         return $this->content;
@@ -90,14 +80,26 @@ class Article
         return $this;
     }
 
-    public function getFeaturedText(): ?string
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
     {
-        return $this->featuredText;
+        return $this->categories;
     }
 
-    public function setFeaturedText(?string $featuredText): self
+    public function addCategory(Category $category): self
     {
-        $this->featuredText = $featuredText;
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }
@@ -126,35 +128,37 @@ class Article
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategories(): Collection
+    public function __toString(): string
     {
-        return $this->categories;
+        return $this->title;
     }
 
-    public function addCategory(Category $category): self
+    public function getSlug(): ?string
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-            $category->addArticle($this);
-        }
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
 
-    public function removeCategory(Category $category): self
+    public function getFeaturedText(): ?string
     {
-        if ($this->categories->removeElement($category)) {
-            $category->removeArticle($this);
-        }
+        return $this->featuredText;
+    }
+
+    public function setFeaturedText(?string $featuredText): self
+    {
+        $this->featuredText = $featuredText;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Comment>
+     * @return Collection|Comment[]
      */
     public function getComments(): Collection
     {
@@ -164,7 +168,7 @@ class Article
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
+            $this->comments[] = $comment;
             $comment->setArticle($this);
         }
 

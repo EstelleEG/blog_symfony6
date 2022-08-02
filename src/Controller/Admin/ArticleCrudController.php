@@ -20,7 +20,7 @@ class ArticleCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
     
-        yield TextField::new('title');
+        yield TextField::new('title');//define an array and return the values in it
 
         yield SlugField::new('slug')
         ->setTargetFieldName('title');
@@ -29,8 +29,8 @@ class ArticleCrudController extends AbstractCrudController
 
         yield TextField::new('featuredText');
 
-        yield DateTimeField::new('createdAt')
-        ->hideOnForm();
+        yield DateTimeField::new('createdAt');
+        //->hideOnForm();
 
         yield DateTimeField::new('updatedAt');
 

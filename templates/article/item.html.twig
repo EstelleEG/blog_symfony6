@@ -1,0 +1,27 @@
+{% set article_show = path('article_show', {'slug': article.slug}) %}
+  
+<article class="mb-5">
+    <div class="row">
+
+        <div class="col-md-5">
+            {% if article.featuredImage %} {#if article has an img#}
+                {# when click on img, we show the article, en param on pass le slug #}
+                <a href="{{ article_show }}"> 
+                    {# loading lazy : only load the img when we see it#}
+                    <img src="/uploads/{{ article.featuredImage.filename }}" alt="{{ article.featuredImage.altText }}" loading="lazy" width="350" height="205" >
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="col-md-7">
+            <h2>
+                <a class="text-decoration-none" href="{{ article_show }}" >{{ article.title }}</a>
+            </h2>
+            <p>
+                {{ article.createdAt|date('d M Y') }}
+            </p>
+            {{ article.featuredText ?: article.content|striptags|slice(0, 130) ~ '...' }}
+            {# on prend les 130 1ers caracteres de l'article #}
+        </div>
+    </div>
+</article>
