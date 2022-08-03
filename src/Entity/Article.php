@@ -198,4 +198,5 @@ class Article /*implements TimestampedInterface*/
 
         return $this;
     }
+
 }
