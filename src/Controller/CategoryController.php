@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+//my route and my array of existing categories
 use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

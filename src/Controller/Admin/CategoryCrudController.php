@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller\Admin;
-
+//configuration of my fields for the category add form
 use App\Entity\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
