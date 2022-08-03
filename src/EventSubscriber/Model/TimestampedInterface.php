@@ -1,6 +1,6 @@
 <?php
 //define 4 properties
-namespace App\Model;
+/*namespace App\Model;
 
 interface TimestampedInterface
 {
@@ -12,4 +12,4 @@ interface TimestampedInterface
     public function getUpdatedAt(): ?\DateTimeInterface;
 
     public function setUpdatedAt(\DateTimeInterface $modifiedAt): self;
-}
+}*/

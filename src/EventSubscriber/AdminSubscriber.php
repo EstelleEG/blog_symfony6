@@ -3,7 +3,7 @@
 //methods that listen to one or various events
 namespace App\EventSubscriber;
 
-use App\Model\TimestampedInterface;
+//use App\Model\TimestampedInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,22 +22,22 @@ class AdminSubscriber implements EventSubscriberInterface
     {
        $entity = $event->getEntityInstance();
 
-       if (!$entity instanceof TimestampedInterface) {
+       /*if (!$entity instanceof TimestampedInterface) {
            return;
-       }
+       }*/
 
-       $entity->setCreatedAt(new \DateTime());
+       //$entity->setCreatedAt(new \DateTime());
     }
 
     public function setEntityUpdatedAt(BeforeEntityUpdatedEvent $event)
     {
         $entity = $event->getEntityInstance();
 
-        if (!$entity instanceof TimestampedInterface) {
+        /*if (!$entity instanceof TimestampedInterface) {
             return;
-        }
+        }*/
 
-        $entity->setUpdatedAt(new \DateTime());
+        //$entity->setUpdatedAt(new \DateTime());
     }
 }
 
