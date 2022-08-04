@@ -14,8 +14,11 @@
         </h2>
 
         <hr>
+        {# if connected, can post a comment #}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %} 
+            <div class="comment-area mb-5">
+                {{ form(commentForm) }}
+            </div>
+        {% endif %}
 
-        <div class="comment-area mb-5">
-            {{ form(commentForm) }}
-    </div>
 {% endblock %}
