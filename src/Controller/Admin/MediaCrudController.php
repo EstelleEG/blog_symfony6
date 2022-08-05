@@ -19,7 +19,7 @@ class MediaCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-     
+    
         $mediasDir = $this->getParameter('medias_directory');
         $uploadsDir = $this->getParameter('uploads_directory');
 
