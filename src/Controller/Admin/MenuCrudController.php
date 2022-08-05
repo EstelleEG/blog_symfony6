@@ -9,7 +9,7 @@ class MenuCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Menu::class;
+        return Menu::class; //ma view of menu
     }
 
     /*

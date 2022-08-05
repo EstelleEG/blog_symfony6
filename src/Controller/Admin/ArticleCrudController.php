@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Controller\Admin;
 
+//Admin form to create an article
 use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -31,6 +31,8 @@ class ArticleCrudController extends AbstractCrudController
         yield TextField::new('featuredText');
 
         yield AssociationField::new('categories');//filter to choose the category of the article 
+
+        yield AssociationField::new('featuredImage');//to add an img to the article
 
         yield DateTimeField::new('createdAt');
         //->hideOnForm();

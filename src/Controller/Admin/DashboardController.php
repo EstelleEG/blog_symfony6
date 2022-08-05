@@ -1,13 +1,13 @@
 <?php
 namespace App\Controller\Admin;
-//configuration of menu items
+//DASHBOARD ADMIN : configuration of menu items
 
 use App\Entity\Menu;
 use App\Entity\User;
+use App\Entity\Media;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Category;
-use App\Controller\CommentController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Controller\Admin\ArticleCrudController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+
 
 class DashboardController extends AbstractDashboardController
 {
@@ -59,6 +60,11 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud('Tous les articles', 'fas fa-newspaper', Article::class),
                 MenuItem::linkToCrud('Add', 'fas fa-plus', Article::class)->setAction(Crud::PAGE_NEW), 
                 MenuItem::linkToCrud('Categories', 'fas fa-list', Category::class)
+            ]);
+
+            yield MenuItem::subMenu('Médias', 'fas fa-photo-video')->setSubItems([
+                MenuItem::linkToCrud('Médiathèque', 'fas fa-photo-video', Media::class),
+                MenuItem::linkToCrud('Add', 'fas fa-plus', Media::class)->setAction(Crud::PAGE_NEW), 
             ]);
         }
 

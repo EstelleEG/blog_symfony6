@@ -14,31 +14,37 @@
         {% endblock %}
     </head>
     <body>
+
+    {% if is_granted('ROLE_AUTHOR') %}
         <nav class="py-2 bg-dark border-bottom">
             <div class="container d-flex flex-wrap">
 
                 <div class="dropdown">
-                    <a class="nav nav-link dropdown-toggle text-white" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <a class="nav nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         my Blog
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonAdminDashboard">
                         <li><a class="dropdown-item" href="{{ path('admin') }}">Tableau de bord</a></li>
-                        <li><a class="dropdown-item" href="#">Menus</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a class="dropdown-item" href="{{ path('admin') }}">Menus</a></li>
+                    {% endif %}
                     </ul>
                 </div>
 
                 <div class="dropdown">
-                    <a class="nav nav-link dropdown-toggle text-white" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <a class="nav nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Ajouter
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonAdminAdd">
-                        <li><a class="dropdown-item" href="#">Articles</a></li>
-                        <li><a class="dropdown-item" href="#">Pages</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin') }}">Articles</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin') }}">Pages</a></li>
                     </ul>
                 </div>
 
             </div>
         </nav>
+    {% endif %}
+
 
         <div class="container">
             <header class="d-flex flex-wrap justify-content-center py-3 my-4 border-bottom">
